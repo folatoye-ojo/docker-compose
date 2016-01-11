@@ -1,0 +1,87 @@
+redis:
+  image: redis:2.8
+  ports:
+    - '6379:6379'
+postgres:
+  image: postgres:9.3
+  ports:
+    - '5432:5432'
+  volumes_from:
+    - postgres-data
+solr:
+  image: solr:5.3.1
+  ports:
+    - '8983:8983'
+  volumes_from:
+    - solr-data
+web:
+  image: g2crowd/ue
+  command: bundle exec puma -t 1:1 -w 1 -p 3000 -e development
+  env_file: ue/.env
+  volumes:
+    - ../ue:/myapp
+  volumes_from:
+    - ue-bundle
+  ports:
+    - '3000:3000'
+  links:
+    - postgres
+    - redis
+    - solr
+    - analytics_web
+admin:
+  image: g2crowd/ue
+  command: bundle exec puma -t 1:1 -w 1 -p 3333 -e development
+  env_file: ue/.env
+  environment:
+    IS_ADMIN: 'true'
+  volumes:
+    - ../ue:/myapp
+  volumes_from:
+    - ue-bundle
+  ports:
+    - '3333:3333'
+  links:
+    - postgres
+    - redis
+    - solr
+    - analytics_web
+worker:
+  image: g2crowd/ue
+  command: bundle exec sidekiq -C config/sidekiq.yml
+  env_file: ue/.env
+  environment:
+    IS_WORKER: 'true'
+  volumes:
+    - ../ue:/myapp
+  volumes_from:
+    - ue-bundle
+  links:
+    - postgres
+    - redis
+    - solr
+    - analytics_web
+analytics_web:
+  image: g2crowd/analytics-api
+  command: bundle exec puma -t 1:1 -w 1 -p 3030 -e development
+  env_file: analytics-api/.env
+  volumes:
+    - ../analytics-api:/myapp
+  volumes_from:
+    - analytics-bundle
+  ports:
+    - '3030:3030'
+  links:
+    - postgres
+    - redis
+analytics_worker:
+  image: g2crowd/analytics-api
+  command: bundle exec sidekiq -C config/sidekiq.yml
+  env_file: analytics-api/.env
+  volumes:
+    - ../analytics-api:/myapp
+  volumes_from:
+    - analytics-bundle
+  links:
+    - postgres
+    - redis
