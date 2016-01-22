@@ -1,5 +1,7 @@
 Setup Docker
 ------------------
+1. Install VirtualBox and the [VirtualBox Extension Pack](https://www.virtualbox.org/wiki/Downloads)  
+
 1. Make sure your Homebrew formulae are up-to-date: `brew update`
 
 1. Install [dinghy](https://github.com/codekitchen/dinghy) and create the VM.
