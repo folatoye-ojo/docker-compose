@@ -34,6 +34,20 @@ and create an entry for `solr` in your `/etc/hosts` file.
 your host for each service. The first mapping is required for the grid images to show properly:
     ```
     VBoxManage controlvm dinghy natpf1 "localhost,tcp,127.0.0.1,3000,,3000"
+    VBoxManage controlvm dinghy natpf1 "localhost-admin,tcp,127.0.0.1,3333,,3333"
     VBoxManage controlvm dinghy natpf1 "postgres,tcp,127.0.0.1,5432,,5432"
     VBoxManage controlvm dinghy natpf1 "redis,tcp,127.0.0.1,6379,,6379"
     VBoxManage controlvm dinghy natpf1 "solr,tcp,127.0.0.1,8983,,8983"
+
+1. Create an account on Dockerhub, and request access to the G2 Crowd organization from one of your team members.
+
+1. Login to dockerhub from the command line
+
+    ```
+    docker login
+    Username:
+    Password:
+    Email:
+    WARNING: login credentials saved in ~/.docker/config.json
+    Login Succeeded
+    ```
