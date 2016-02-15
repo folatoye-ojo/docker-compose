@@ -38,10 +38,11 @@ your host for each service. The first mapping is required for the grid images to
     VBoxManage controlvm dinghy natpf1 "postgres,tcp,127.0.0.1,5432,,5432"
     VBoxManage controlvm dinghy natpf1 "redis,tcp,127.0.0.1,6379,,6379"
     VBoxManage controlvm dinghy natpf1 "solr,tcp,127.0.0.1,8983,,8983"
+    ```
 
-1. Create an account on Dockerhub, and request access to the G2 Crowd organization from one of your team members.
+1. Create an account on Docker Hub, and request access to the G2 Crowd organization from one of your team members.
 
-1. Login to dockerhub from the command line
+1. Login to Docker Hub from the command line:
 
     ```
     docker login
