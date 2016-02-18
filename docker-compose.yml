@@ -28,7 +28,6 @@ web:
     - postgres
     - redis
     - solr
-    - analytics_web
 admin:
   image: g2crowd/ue
   command: bundle exec puma -t 1:1 -w 1 -p 3333 -e development
@@ -45,7 +44,6 @@ admin:
     - postgres
     - redis
     - solr
-    - analytics_web
 worker:
   image: g2crowd/ue
   command: bundle exec sidekiq -C config/sidekiq.yml
@@ -60,7 +58,6 @@ worker:
     - postgres
     - redis
     - solr
-    - analytics_web
 analytics_web:
   image: g2crowd/analytics-api
   command: bundle exec puma -t 1:1 -w 1 -p 3030 -e development
