@@ -19,7 +19,7 @@ web:
   command: bundle exec puma -t 1:1 -w 1 -p 3000 -e development
   env_file: ue/.env
   volumes:
-    - ../ue:/myapp
+    - ../ue:/ue
   volumes_from:
     - ue-bundle
   ports:
@@ -35,7 +35,7 @@ admin:
   environment:
     IS_ADMIN: 'true'
   volumes:
-    - ../ue:/myapp
+    - ../ue:/ue
   volumes_from:
     - ue-bundle
   ports:
@@ -51,7 +51,7 @@ worker:
   environment:
     IS_WORKER: 'true'
   volumes:
-    - ../ue:/myapp
+    - ../ue:/ue
   volumes_from:
     - ue-bundle
   links:
