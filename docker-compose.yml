@@ -82,3 +82,14 @@ analytics_worker:
   links:
     - postgres
     - redis
+list:
+  image: g2crowd/list-rails
+  command: bundle exec rails s -p 3000 -b '0.0.0.0'
+  env_file: list-rails/.env
+  volumes:
+    - ../list-rails:/myapp
+  volumes_from:
+    - list-bundle
+  links:
+    - postgres
+    - redis
