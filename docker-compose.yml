@@ -93,3 +93,12 @@ list:
   links:
     - postgres
     - redis
+public_api_service:
+  image: g2crowd/public-api-service
+  command: go run public-api-service.go
+  env_file: public-api-service/.env
+  ports:
+    - '8000:8000'
+  links:
+    - postgres
+    - solr
