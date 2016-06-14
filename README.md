@@ -27,6 +27,7 @@ and create an entry for `solr` in your `/etc/hosts` file.
     docker create -v /usr/local/bundle --name ue-bundle ruby:2.2.3 /bin/true
     docker create -v /usr/local/bundle --name analytics-bundle ruby:2.2.3 /bin/true
     docker create -v /usr/local/bundle --name list-bundle ruby:2.2.3 /bin/true
+    docker create -v /usr/local/bundle --name tracking-bundle ruby:2.2.3 /bin/true
     docker create -v /opt/solr/server/solr --name solr-data g2crowd/solr /bin/true
     docker create -v /var/lib/postgresql/data --name postgres-data postgres:9.3 /bin/true
     ```
