@@ -102,3 +102,27 @@ public_api_service:
   links:
     - postgres
     - solr
+tracking_web:
+  image: g2crowd/track
+  command: bundle exec puma -t 1:1 -w 1 -p 3300 -e development
+  env_file: tracking-api/.env
+  volumes:
+    - ../tracking_api:/myapp
+  volumes_from:
+    - tracking-bundle
+  ports:
+    - '3300:3300'
+  links:
+    - postgres
+    - redis
+tracking_worker:
+  image: g2crowd/track
+  command: bundle exec sidekiq -C config/sidekiq.yml
+  env_file: tracking-api/.env
+  volumes:
+    - ../tracking_api:/myapp
+  volumes_from:
+    - tracking-bundle
+  links:
+    - postgres
+    - redis
