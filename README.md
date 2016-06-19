@@ -1,10 +1,10 @@
 Setup Docker
 ------------------
-1. Install VirtualBox and the [VirtualBox Extension Pack](https://www.virtualbox.org/wiki/Downloads)  
+1. Install VirtualBox and the [VirtualBox Extension Pack](https://www.virtualbox.org/wiki/Downloads)
 
 1. Make sure your Homebrew formulae are up-to-date: `brew update`
 
-1. Install [dinghy](https://github.com/codekitchen/dinghy) and create the VM. Make sure to create your VM with extra 
+1. Install [dinghy](https://github.com/codekitchen/dinghy) and create the VM. Make sure to create your VM with extra
 storage using this command during the dinghy setup:
     ```
     dinghy create --provider virtualbox -d 40960
@@ -20,11 +20,16 @@ storage using this command during the dinghy setup:
     eval "$(docker-machine env dinghy)"
     ```
 
-1. Add a hosts file entry for the dinghy VM. Use the output of
+1. Add host file entries for the dinghy VM. Use the output of
     ```
     docker-machine ip dinghy
     ```
-and create an entry for `solr` in your `/etc/hosts` file.
+and create an entry for `solr` and `tracking_web` in your `/etc/hosts` file.
+
+    ```
+    xxx.xxx.xxx.xxx	solr
+    xxx.xxx.xxx.xxx	tracking_web
+    ```
 
 1. Create data volume containers:
     ```
