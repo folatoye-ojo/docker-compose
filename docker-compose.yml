@@ -14,6 +14,14 @@ solr:
     - '8983:8983'
   volumes_from:
     - solr-data
+elasticsearch:
+  image: elasticsearch:2.3.5
+  ports:
+    - '9200:9200'
+  volumes:
+    - ../ue/elasticsearch/config:/usr/share/elasticsearch/config
+  volumes_from:
+    - elasticsearch-data
 web:
   image: g2crowd/ue
   command: bundle exec puma -t 1:1 -w 1 -p 3000 -e development
@@ -27,7 +35,7 @@ web:
   links:
     - postgres
     - redis
-    - solr
+    - elasticsearch
 admin:
   image: g2crowd/ue
   command: bundle exec puma -t 1:1 -w 1 -p 3333 -e development
@@ -43,7 +51,7 @@ admin:
   links:
     - postgres
     - redis
-    - solr
+    - elasticsearch
 worker:
   image: g2crowd/ue
   command: bundle exec sidekiq -C config/sidekiq.yml
@@ -57,7 +65,7 @@ worker:
   links:
     - postgres
     - redis
-    - solr
+    - elasticsearch
 analytics_web:
   image: g2crowd/analytics-api
   command: bundle exec puma -t 1:1 -w 1 -p 3030 -e development

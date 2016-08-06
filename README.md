@@ -24,10 +24,10 @@ storage using this command during the dinghy setup:
     ```
     docker-machine ip dinghy
     ```
-and create an entry for `solr` and `tracking_web` in your `/etc/hosts` file.
+and create an entry for `elasticsearch` and `tracking_web` in your `/etc/hosts` file.
 
     ```
-    xxx.xxx.xxx.xxx	solr
+    xxx.xxx.xxx.xxx	elasticsearch
     xxx.xxx.xxx.xxx	tracking_web
     ```
 
@@ -37,7 +37,7 @@ and create an entry for `solr` and `tracking_web` in your `/etc/hosts` file.
     docker create -v /usr/local/bundle --name analytics-bundle ruby:2.2.3 /bin/true
     docker create -v /usr/local/bundle --name list-bundle ruby:2.2.3 /bin/true
     docker create -v /usr/local/bundle --name tracking-bundle ruby:2.2.3 /bin/true
-    docker create -v /opt/solr/server/solr --name solr-data g2crowd/solr /bin/true
+    docker create -v /usr/share/elasticsearch/data --name elasticsearch-data elasticsearch:2.3.5 /bin/true
     docker create -v /var/lib/postgresql/data --name postgres-data postgres:9.3 /bin/true
     ```
 
@@ -47,7 +47,7 @@ your host for each service. The first mapping is required for the grid images to
     VBoxManage controlvm dinghy natpf1 "localhost,tcp,127.0.0.1,3000,,3000"
     VBoxManage controlvm dinghy natpf1 "postgres,tcp,127.0.0.1,5432,,5432"
     VBoxManage controlvm dinghy natpf1 "redis,tcp,127.0.0.1,6379,,6379"
-    VBoxManage controlvm dinghy natpf1 "solr,tcp,127.0.0.1,8983,,8983"
+    VBoxManage controlvm dinghy natpf1 "elasticsearch,tcp,127.0.0.1,9200,,9200"
     ```
 
 1. Create an account on Docker Hub, and request access to the G2 Crowd organization from one of your team members.
