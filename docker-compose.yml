@@ -8,12 +8,6 @@ postgres:
     - '5432:5432'
   volumes_from:
     - postgres-data
-solr:
-  image: solr:5.3.1
-  ports:
-    - '8983:8983'
-  volumes_from:
-    - solr-data
 elasticsearch:
   image: elasticsearch:2.3.5
   ports:
@@ -109,7 +103,7 @@ public_api_service:
     - '8000:8000'
   links:
     - postgres
-    - solr
+    - elasticsearch
 tracking_web:
   image: g2crowd/track
   command: bundle exec puma -t 1:1 -w 1 -p 3300 -e development
