@@ -18,7 +18,7 @@ elasticsearch:
     - elasticsearch-data
 web:
   image: g2crowd/ue
-  command: bundle exec puma -t 1:1 -w 1 -p 3000 -e development
+  command: bundle exec puma -t 1:1 -w 1 -p 3000 -e development -C config/dev_puma_config.rb
   env_file: ue/.env
   volumes:
     - ../ue:/ue
