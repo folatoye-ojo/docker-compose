@@ -38,7 +38,7 @@ and create an entry for `elasticsearch` and `tracking_web` in your `/etc/hosts` 
     docker create -v /usr/local/bundle --name list-bundle ruby:2.2.3 /bin/true
     docker create -v /usr/local/bundle --name tracking-bundle ruby:2.2.3 /bin/true
     docker create -v /usr/share/elasticsearch/data --name elasticsearch-data elasticsearch:2.3.5 /bin/true
-    docker create -v /var/lib/postgresql/data --name postgres-data postgres:9.3 /bin/true
+    docker create -v /var/lib/postgresql/data --name postgres-data postgres:9.6.1 /bin/true
     ```
 
 1. If you would like to have the docker services accessible locally, you need to create a port mapping from the VM to
