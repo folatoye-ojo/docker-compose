@@ -16,6 +16,15 @@ elasticsearch:
     - ../ue/elasticsearch/config:/usr/share/elasticsearch/config
   volumes_from:
     - elasticsearch-data
+asset-tools:
+  image: g2crowd/asset-tools
+  command: node_modules/.bin/webpack-dev-server --no-inline --host 0.0.0.0 --port 3080
+  ports:
+    - '3080:3080'
+  volumes:
+    - ../ue:/ue
+  volumes_from:
+    - assets-bundle
 web:
   image: g2crowd/ue
   command: bundle exec puma -t 1:1 -w 1 -p 3000 -e development -C config/dev_puma_config.rb
@@ -27,6 +36,7 @@ web:
   ports:
     - '3000:3000'
   links:
+    - asset-tools
     - postgres
     - redis
     - elasticsearch
@@ -43,6 +53,7 @@ admin:
   ports:
     - '3333:3333'
   links:
+    - asset-tools
     - postgres
     - redis
     - elasticsearch

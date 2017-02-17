@@ -39,6 +39,7 @@ and create an entry for `elasticsearch` and `tracking_web` in your `/etc/hosts` 
     docker create -v /usr/local/bundle --name tracking-bundle ruby:2.2.3 /bin/true
     docker create -v /usr/share/elasticsearch/data --name elasticsearch-data elasticsearch:2.3.5 /bin/true
     docker create -v /var/lib/postgresql/data --name postgres-data postgres:9.6.1 /bin/true
+    docker create -v /ue/node_modules --name assets-bundle node:7.5.0 /bin/true
     ```
 
 1. If you would like to have the docker services accessible locally, you need to create a port mapping from the VM to
@@ -48,6 +49,7 @@ your host for each service. The first mapping is required for the grid images to
     VBoxManage controlvm dinghy natpf1 "postgres,tcp,127.0.0.1,5432,,5432"
     VBoxManage controlvm dinghy natpf1 "redis,tcp,127.0.0.1,6379,,6379"
     VBoxManage controlvm dinghy natpf1 "elasticsearch,tcp,127.0.0.1,9200,,9200"
+    VBoxManage controlvm dinghy natpf1 "asset-tools,tcp,127.0.0.1,3080,,3080"
     ```
 
 1. Create an account on Docker Hub, and request access to the G2 Crowd organization from one of your team members.
