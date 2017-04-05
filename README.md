@@ -31,13 +31,19 @@ and create an entry for `elasticsearch` and `tracking_web` in your `/etc/hosts` 
     xxx.xxx.xxx.xxx	tracking_web
     ```
 
+1. Prepare dinghy VM for elasticsearch:
+    ```
+    dinghy ssh
+    sudo sysctl -w vm.max_map_count=262144
+    ```
+
 1. Create data volume containers:
     ```
     docker create -v /usr/local/bundle --name ue-bundle ruby:2.2.3 /bin/true
     docker create -v /usr/local/bundle --name analytics-bundle ruby:2.2.3 /bin/true
     docker create -v /usr/local/bundle --name list-bundle ruby:2.2.3 /bin/true
     docker create -v /usr/local/bundle --name tracking-bundle ruby:2.2.3 /bin/true
-    docker create -v /usr/share/elasticsearch/data --name elasticsearch-data elasticsearch:2.3.5 /bin/true
+    docker create -v /usr/share/elasticsearch/data --name elasticsearch-data docker.elastic.co/elasticsearch/elasticsearch:5.3.0 /bin/true
     docker create -v /var/lib/postgresql/data --name postgres-data postgres:9.6.1 /bin/true
     docker create -v /ue/node_modules --name assets-bundle node:7.5.0 /bin/true
     ```
