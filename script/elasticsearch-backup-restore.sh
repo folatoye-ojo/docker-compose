@@ -13,5 +13,5 @@ else
   file_only=$(basename "$1")
   echo "Mounting volume to host dir $(pwd) and using archive $file_only"
 
-  docker run --rm --volumes-from elasticsearch-data -v $(pwd):/backup elasticsearch:2.3.5 sh -c "rm -rf /usr/share/elasticsearch/data/* && cd /usr/share/elasticsearch/ && tar xf /backup/$file_only"
+  docker run --rm --volumes-from elasticsearch-data -v $(pwd):/backup docker.elastic.co/elasticsearch/elasticsearch:5.3.0 sh -c "rm -rf /usr/share/elasticsearch/data/* && cd /usr/share/elasticsearch/ && tar xf /backup/$file_only"
 fi
