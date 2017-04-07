@@ -24,7 +24,8 @@ storage using this command during the dinghy setup:
     ```
     docker-machine ip dinghy
     ```
-and create an entry for `elasticsearch` and `tracking_web` in your `/etc/hosts` file.
+
+    and create an entry for `elasticsearch` and `tracking_web` in your `/etc/hosts` file.
 
     ```
     xxx.xxx.xxx.xxx	elasticsearch
