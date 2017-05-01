@@ -7,7 +7,7 @@ Setup Docker
 1. Install [dinghy](https://github.com/codekitchen/dinghy) and create the VM. Make sure to create your VM with extra
 storage using this command during the dinghy setup:
     ```
-    dinghy create --provider virtualbox -d 40960
+    dinghy create --provider virtualbox -d 40960 -m 4096
     ```
 
 1. You will have installed `docker` and `docker-machine` in the previous step. Install `docker-compose` using Homebrew:
