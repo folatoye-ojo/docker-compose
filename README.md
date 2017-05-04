@@ -70,3 +70,10 @@ your host for each service. The first mapping is required for the grid images to
     WARNING: login credentials saved in ~/.docker/config.json
     Login Succeeded
     ```
+
+1. Download elastic-search file from Product Slack Channel's pinned items, within docker-compose directory run:
+    
+    ```
+    mv ~/Downloads/elasticsearch-2017-04-04-backup.tar.gz .
+    ```
+    This will run a script to unzip and mount the file in docker-compose
