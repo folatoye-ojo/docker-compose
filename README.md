@@ -75,5 +75,6 @@ your host for each service. The first mapping is required for the grid images to
     
     ```
     mv ~/Downloads/elasticsearch-2017-04-04-backup.tar.gz .
+    ./script/elasticsearch-backup-restore.sh elasticsearch-2017-04-04-backup.tar.gz
     ```
     This will run a script to unzip and mount the file in docker-compose
