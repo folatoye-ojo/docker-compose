@@ -1,141 +1,141 @@
-redis:
-  image: redis:2.8
-  ports:
-    - '6379:6379'
-postgres:
-  image: postgres:9.6.1
-  ports:
-    - '5432:5432'
-  volumes_from:
-    - postgres-data
-elasticsearch:
-  image: docker.elastic.co/elasticsearch/elasticsearch:5.3.0
-  ports:
-    - '9200:9200'
-  volumes:
-    - ../ue/elasticsearch/config:/usr/share/elasticsearch/config
-  volumes_from:
-    - elasticsearch-data
-asset-tools:
-  image: g2crowd/asset-tools
-  command: node_modules/.bin/webpack-dev-server --no-inline --host 0.0.0.0 --port 3080
-  ports:
-    - '3080:3080'
-  volumes:
-    - ../ue:/ue
-  volumes_from:
-    - assets-bundle
-web:
-  image: g2crowd/ue
-  command: bundle exec puma -t 1:1 -w 1 -p 3000 -e development -C config/dev_puma_config.rb
-  env_file: ue/.env
-  volumes:
-    - ../ue:/ue
-  volumes_from:
-    - ue-bundle
-  ports:
-    - '3000:3000'
-  links:
-    - asset-tools
-    - postgres
-    - redis
-    - elasticsearch
-admin:
-  image: g2crowd/ue
-  command: bundle exec puma -t 1:1 -w 1 -p 3333 -e development
-  env_file: ue/.env
-  environment:
-    IS_ADMIN: 'true'
-  volumes:
-    - ../ue:/ue
-  volumes_from:
-    - ue-bundle
-  ports:
-    - '3333:3333'
-  links:
-    - asset-tools
-    - postgres
-    - redis
-    - elasticsearch
-worker:
-  image: g2crowd/ue
-  command: bundle exec sidekiq -C config/sidekiq.yml
-  env_file: ue/.env
-  environment:
-    IS_WORKER: 'true'
-  volumes:
-    - ../ue:/ue
-  volumes_from:
-    - ue-bundle
-  links:
-    - postgres
-    - redis
-    - elasticsearch
-analytics_web:
-  image: g2crowd/analytics-api
-  command: bundle exec puma -t 1:1 -w 1 -p 3030 -e development
-  env_file: analytics-api/.env
-  volumes:
-    - ../analytics-api:/myapp
-  volumes_from:
-    - analytics-bundle
-  ports:
-    - '3030:3030'
-  links:
-    - postgres
-    - redis
-analytics_worker:
-  image: g2crowd/analytics-api
-  command: bundle exec sidekiq -C config/sidekiq.yml
-  env_file: analytics-api/.env
-  volumes:
-    - ../analytics-api:/myapp
-  volumes_from:
-    - analytics-bundle
-  links:
-    - postgres
-    - redis
-list:
-  image: g2crowd/list-rails
-  command: bundle exec rails s -p 3000 -b '0.0.0.0'
-  env_file: list-rails/.env
-  volumes:
-    - ../list-rails:/myapp
-  volumes_from:
-    - list-bundle
-  links:
-    - postgres
-    - redis
-public_api_service:
-  image: g2crowd/public-api-service
-  command: go run public-api-service.go
-  env_file: public-api-service/.env
-  ports:
-    - '8000:8000'
-  links:
-    - postgres
-    - elasticsearch
-tracking_web:
-  image: g2crowd/track
-  command: bundle exec puma -t 1:1 -w 1 -p 3300 -e development
-  env_file: tracking-api/.env
-  volumes:
-    - ../tracking_api:/myapp
-  volumes_from:
-    - tracking-bundle
-  ports:
-    - '3300:3300'
-  links:
-    - postgres
-    - redis
-tracking_worker:
-  image: g2crowd/track
-  command: bundle exec sidekiq -C config/sidekiq.yml
-  env_file: tracking-api/.env
-  volumes:
-    - ../tracking_api:/myapp
-  volumes_from:
-    - tracking-bundle
-  links:
-    - postgres
-    - redis
+version: '2'
+services:
+  redis:
+    image: redis:2.8
+    ports:
+      - '6379:6379'
+  postgres:
+    image: postgres:9.6.1
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.3.0
+    ports:
+      - '9200:9200'
+    volumes:
+      - ../ue/elasticsearch/config:/usr/share/elasticsearch/config
+      - elasticsearch-data:/usr/share/elasticsearch/data
+  asset-tools:
+    image: g2crowd/asset-tools
+    command: node_modules/.bin/webpack-dev-server --no-inline --host 0.0.0.0 --port 3080
+    ports:
+      - '3080:3080'
+    volumes:
+      - ../ue:/ue
+      - assets-bundle:/ue/node_modules
+  web:
+    image: g2crowd/ue
+    command: bundle exec puma -t 1:1 -w 1 -p 3000 -e development -C config/dev_puma_config.rb
+    env_file: ue/.env
+    volumes:
+      - ../ue:/ue:delegated
+      - ue-bundle:/usr/local/bundle
+    ports:
+      - '3000:3000'
+    depends_on:
+      - asset-tools
+      - postgres
+      - redis
+      - elasticsearch
+  admin:
+    image: g2crowd/ue
+    command: bundle exec puma -t 1:1 -w 1 -p 3333 -e development
+    env_file: ue/.env
+    environment:
+      IS_ADMIN: 'true'
+    volumes:
+      - ../ue:/ue:delegated
+      - ue-bundle:/usr/local/bundle
+    ports:
+      - '3333:3333'
+    depends_on:
+      - asset-tools
+      - postgres
+      - redis
+      - elasticsearch
+  worker:
+    image: g2crowd/ue
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    env_file: ue/.env
+    environment:
+      IS_WORKER: 'true'
+    volumes:
+      - ../ue:/ue:delegated
+      - ue-bundle:/usr/local/bundle
+    depends_on:
+      - postgres
+      - redis
+      - elasticsearch
+  analytics_web:
+    image: g2crowd/analytics-api
+    command: bundle exec puma -t 1:1 -w 1 -p 3030 -e development
+    env_file: analytics-api/.env
+    volumes:
+      - ../analytics-api:/myapp:delegated
+      - analytics-bundle:/usr/local/bundle
+    ports:
+      - '3030:3030'
+    depends_on:
+      - postgres
+      - redis
+  analytics_worker:
+    image: g2crowd/analytics-api
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    env_file: analytics-api/.env
+    volumes:
+      - ../analytics-api:/myapp:delegated
+      - analytics-bundle:/usr/local/bundle
+    depends_on:
+      - postgres
+      - redis
+  list:
+    image: g2crowd/list-rails
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    env_file: list-rails/.env
+    volumes:
+      - ../list-rails:/myapp:delegated
+      - list-bundle:/usr/local/bundle
+    depends_on:
+      - postgres
+      - redis
+  public_api_service:
+    image: g2crowd/public-api-service
+    command: go run public-api-service.go
+    env_file: public-api-service/.env
+    ports:
+      - '8000:8000'
+    depends_on:
+      - postgres
+      - elasticsearch
+  tracking_web:
+    image: g2crowd/track
+    command: bundle exec puma -t 1:1 -w 1 -p 3300 -e development
+    env_file: tracking-api/.env
+    volumes:
+      - ../tracking_api:/myapp:delegated
+      - tracking-bundle:/usr/local/bundle
+    ports:
+      - '3300:3300'
+    depends_on:
+      - postgres
+      - redis
+  tracking_worker:
+    image: g2crowd/track
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    env_file: tracking-api/.env
+    volumes:
+      - ../tracking_api:/myapp:delegated
+      - tracking-bundle:/usr/local/bundle
+    depends_on:
+      - postgres
+      - redis
+volumes:
+  analytics-bundle:
+  assets-bundle:
+  elasticsearch-data:
+  list-bundle:
+  postgres-data:
+  tracking-bundle:
+  ue-bundle:
