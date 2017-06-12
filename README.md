@@ -7,6 +7,7 @@ Setup Docker
     ```
     127.0.0.1	elasticsearch
     127.0.0.1	tracking_web
+    127.0.0.1	mockserver
     ```
 
 1. Create an account on Docker Hub, and request access to the G2 Crowd organization from one of your team members.
