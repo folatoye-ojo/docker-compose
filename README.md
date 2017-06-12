@@ -2,6 +2,8 @@ Setup Docker
 ------------------
 1. Install [Docker for Mac](https://docs.docker.com/docker-for-mac/install/)
 
+1. In [Docker for Mac's advanced preferences](https://docs.docker.com/docker-for-mac/#advanced), increase the runtime memory from 2GB to at least 4GB.
+
 1. Add host file entries for `elasticsearch` and `tracking_web` in your `/etc/hosts` file.
 
     ```
