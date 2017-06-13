@@ -70,12 +70,11 @@ services:
       - redis
       - elasticsearch
   mockserver:
-    image: g2crowd/ue:2017-06-09
+    image: g2crowd/asset-tools
     command: node_modules/mockserver/bin/mockserver.js -p 9001 -m mocks
-    env_file: ue/.env
     volumes:
-      - ../ue:/ue:delegated
-      - ue-bundle:/usr/local/bundle
+      - ../ue:/ue
+      - assets-bundle:/ue/node_modules
     ports:
       - '9001:9001'
   analytics_web:
