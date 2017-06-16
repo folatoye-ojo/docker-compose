@@ -26,7 +26,7 @@ services:
       - ../ue:/ue
       - assets-bundle:/ue/node_modules
   web:
-    image: g2crowd/ue:2017-06-15
+    image: g2crowd/ue:2017-06-16
     command: bundle exec puma -t 1:1 -w 1 -p 3000 -e development -C config/dev_puma_config.rb
     env_file: ue/.env
     volumes:
@@ -41,7 +41,7 @@ services:
       - elasticsearch
       - mockserver
   admin:
-    image: g2crowd/ue:2017-06-15
+    image: g2crowd/ue:2017-06-16
     command: bundle exec puma -t 1:1 -w 1 -p 3333 -e development
     env_file: ue/.env
     environment:
@@ -57,7 +57,7 @@ services:
       - redis
       - elasticsearch
   worker:
-    image: g2crowd/ue:2017-06-15
+    image: g2crowd/ue:2017-06-16
     command: bundle exec sidekiq -C config/sidekiq.yml
     env_file: ue/.env
     environment:
