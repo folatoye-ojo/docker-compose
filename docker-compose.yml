@@ -80,11 +80,11 @@ services:
     ports:
       - '9001:9001'
   analytics_web:
-    image: g2crowd/analytics-api
+    image: g2crowd/analytics-api:2017-08-09
     command: bundle exec puma -t 1:1 -w 1 -p 3030 -e development
     env_file: analytics-api/.env
     volumes:
-      - ../analytics-api:/myapp:delegated
+      - ../analytics-api:/analytics-api:delegated
       - analytics-bundle:/usr/local/bundle
     ports:
       - '3030:3030'
@@ -92,11 +92,11 @@ services:
       - postgres
       - redis
   analytics_worker:
-    image: g2crowd/analytics-api
+    image: g2crowd/analytics-api:2017-08-09
     command: bundle exec sidekiq -C config/sidekiq.yml
     env_file: analytics-api/.env
     volumes:
-      - ../analytics-api:/myapp:delegated
+      - ../analytics-api:/analytics-api:delegated
       - analytics-bundle:/usr/local/bundle
     depends_on:
       - postgres
