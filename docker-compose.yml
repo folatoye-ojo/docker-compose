@@ -80,7 +80,7 @@ services:
     ports:
       - '9001:9001'
   analytics_web:
-    image: g2crowd/analytics-api:2017-08-09
+    image: g2crowd/analytics-api:2017-08-15
     command: bundle exec puma -t 1:1 -w 1 -p 3030 -e development
     env_file: analytics-api/.env
     volumes:
@@ -92,7 +92,7 @@ services:
       - postgres
       - redis
   analytics_worker:
-    image: g2crowd/analytics-api:2017-08-09
+    image: g2crowd/analytics-api:2017-08-15
     command: bundle exec sidekiq -C config/sidekiq.yml
     env_file: analytics-api/.env
     volumes:
