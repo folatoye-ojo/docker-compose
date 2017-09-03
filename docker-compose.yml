@@ -28,7 +28,7 @@ services:
     external_links:
       - web
   web:
-    image: g2crowd/ue:2017-08-30
+    image: g2crowd/ue:2017-09-03
     command: bundle exec puma -t 1:1 -w 1 -p 3000 -e development -C config/dev_puma_config.rb
     env_file: ue/.env
     volumes:
