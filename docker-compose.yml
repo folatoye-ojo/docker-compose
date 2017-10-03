@@ -122,11 +122,11 @@ services:
       - postgres
       - elasticsearch
   tracking_web:
-    image: g2crowd/track:ruby234
+    image: g2crowd/tracking_api:2017-10-03
     command: bundle exec puma -t 1:1 -w 1 -p 3300 -e development
     env_file: tracking-api/.env
     volumes:
-      - ../tracking_api:/myapp:delegated
+      - ../tracking_api:/tracking-api:delegated
       - tracking-bundle:/usr/local/bundle
     ports:
       - '3300:3300'
@@ -134,11 +134,11 @@ services:
       - postgres
       - redis
   tracking_worker:
-    image: g2crowd/track:ruby234
+    image: g2crowd/tracking_api:2017-10-03
     command: bundle exec sidekiq -C config/sidekiq.yml
     env_file: tracking-api/.env
     volumes:
-      - ../tracking_api:/myapp:delegated
+      - ../tracking_api:/tracking-api:delegated
       - tracking-bundle:/usr/local/bundle
     depends_on:
       - postgres
