@@ -21,8 +21,9 @@ services:
     image: g2crowd/asset-tools
     command: npm run dev
     ports:
+      - '3001:3001'
       - '3080:3080'
-      - '35729:35729'
+      - '8080:8080'
     volumes:
       - ../ue:/ue
       - assets-bundle:/ue/node_modules
