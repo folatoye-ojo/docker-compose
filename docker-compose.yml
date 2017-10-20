@@ -31,6 +31,8 @@ services:
       - web
   web:
     image: g2crowd/ue:2017-10-10
+    tty: true
+    stdin_open: true
     command: bundle exec puma -t 1:1 -w 1 -p 3000 -e development -C config/dev_puma_config.rb
     env_file: ue/.env
     volumes:
@@ -46,6 +48,8 @@ services:
       - mockserver
   admin:
     image: g2crowd/ue:2017-10-03
+    tty: true
+    stdin_open: true
     command: bundle exec puma -t 1:1 -w 1 -p 3333 -e development
     env_file: ue/.env
     environment:
@@ -124,6 +128,8 @@ services:
       - elasticsearch
   tracking_web:
     image: g2crowd/tracking_api:2017-10-03
+    tty: true
+    stdin_open: true
     command: bundle exec puma -t 1:1 -w 1 -p 3300 -e development
     env_file: tracking-api/.env
     volumes:
