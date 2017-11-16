@@ -150,6 +150,18 @@ services:
     depends_on:
       - postgres
       - redis
+  att_worker:
+    image: g2crowd/att_warehouse
+    tty: true
+    stdin_open: true
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    env_file: att_warehouse/.env
+    volumes:
+      - ../att_warehouse:/att_warehouse:delegated
+      - att-bundle:/usr/local/bundle
+    depends_on:
+     - postgres
+     - redis
 volumes:
   analytics-bundle:
   assets-bundle:
@@ -158,3 +170,4 @@ volumes:
   postgres-data:
   tracking-bundle:
   ue-bundle:
+  att-bundle:
